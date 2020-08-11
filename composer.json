@@ -1,0 +1,38 @@
+{
+    "name": "antaresbr/packager",
+    "description": "A custom PHP package handler",
+    "homepage": "https://github.com/antaresbr/php-packager",
+    "keywords": [
+        "php",
+        "package",
+        "handler"
+    ],
+    "authors": [
+        {
+            "name": "Eduardo Guerra",
+            "email": "eduardo.antares@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "license": "MIT",
+    "bin": [
+        "bin/packager"
+    ],
+    "require": {
+        "php": "^7",
+        "antaresbr/base-cli": "*",
+        "antaresbr/stringhandler": "*"
+    },
+    "autoload": {
+        "files": [
+            "support/helpers.php"
+        ],
+        "psr-4": {
+            "Antares\\Support\\Packager\\": "src/",
+            "Antares\\Support\\Git\\": "src/Git/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
+}

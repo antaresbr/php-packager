@@ -1,0 +1,7 @@
+#!/bin/bash
+
+params=$@
+[ -z "$params" ] && params="tests"
+
+./vendor/bin/phpunit --colors --testdox $params
+

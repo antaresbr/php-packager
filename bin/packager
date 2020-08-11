@@ -1,0 +1,14 @@
+#!/usr/bin/env php
+<?php
+
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+use Antares\Support\Packager\Cli\PackagerCli;
+
+$params = $argv;
+$script = array_shift($params);
+
+echo "\n";
+echo basename($script) . "\n";
+
+PackagerCli::exec($params);
