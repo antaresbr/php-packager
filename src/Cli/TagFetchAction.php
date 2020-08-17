@@ -5,7 +5,7 @@ namespace Antares\Support\Packager\Cli;
 use Antares\Support\BaseCli\BaseCliAction;
 use Antares\Support\Git\GitTag;
 
-class TagListAction extends BaseCliAction
+class TagFetchAction extends BaseCliAction
 {
     /**
      * Prototypes
@@ -13,11 +13,6 @@ class TagListAction extends BaseCliAction
      * @var array
      */
     protected $prototypes = [
-        'remote' => [
-            'labels' => ['--remote'],
-            'help' => 'Flag to list remote tags instead of local tags',
-            'default' => false,
-        ],
         'help' => [
             'labels' => ['--help'],
             'help' => 'Show this help message',
@@ -33,7 +28,7 @@ class TagListAction extends BaseCliAction
     {
         return "
 Usage:
-    packager tag list [ options ]
+    packager tag fetch [ options ]
 
 Where options:
 {$this->params->help()}
@@ -53,12 +48,12 @@ Where options:
         }
 
         echo "\n";
-        echo "Tag list:\n";
+        echo "Tag fetch:\n";
 
         GitTag::make([
             'showCommand' => false,
             'showOutput' => true,
-        ])->getList($this->params->remote);
+        ])->fetchFromRemote();
 
         echo "\n";
     }

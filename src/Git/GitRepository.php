@@ -66,11 +66,17 @@ class GitRepository
     /**
      * Get dotGit folder
      *
+     * @param string $resource
      * @return string
      */
-    public function dotGitFolder()
+    public function dotGitFolder(string $resource = '')
     {
-        return $this->path . DIRECTORY_SEPARATOR . '.git';
+        $resource = trim($resource);
+        $path = $this->path . DIRECTORY_SEPARATOR . '.git';
+        if (!empty($resource)) {
+            $path .= DIRECTORY_SEPARATOR . $resource;
+        }
+        return $path;
     }
 
     /**
@@ -88,5 +94,32 @@ class GitRepository
         }
 
         return $hasDotGit;
+    }
+
+    /**
+     * Get config file
+     *
+     * @return string
+     */
+    public function getConfig()
+    {
+        $configFile = $this->dotGitFolder('config');
+
+        if (!is_file($configFile)) {
+            throw GitException::forConfigFileNotFound();
+        }
+
+        return file_get_contents($configFile);
+    }
+
+    /**
+     * Config file has text
+     *
+     * @param string $text
+     * @return int|false
+     */
+    public function configHas(string $text)
+    {
+        return strpos($this->getConfig(), $text);
     }
 }

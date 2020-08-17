@@ -13,10 +13,13 @@ class PackagerCli extends BaseCliAction
      */
     protected $prototypes = [
         'action' => [
-            'labels' => ['infos', 'tag'],
+            'labels' => ['build', 'infos', 'tag'],
+            'helpTitle' => '{{option}}',
             'help' => [
+                'Action to be performed [ {{labels:pipe}} ]',
+                'build : Build a package version',
                 'infos : Show package infos',
-                'tag   : Tag action',
+                'tag   : Tag actions',
             ],
             'required' => true,
             'stopHere' => true,
@@ -34,16 +37,12 @@ class PackagerCli extends BaseCliAction
      */
     protected function help()
     {
-        $actionLabels = implode(' | ', $this->params->getPrototype('action')['labels']);
         return "
 Usage:
     packager < action | --help >
 
 Where:
-    action  Action to be performed [ {$actionLabels} ]
-{$this->params->help(['action'], false, str_pad('', 12))}
-
-{$this->params->help(['help'])}
+{$this->params->help()}
 
 ";
     }
@@ -53,7 +52,7 @@ Where:
      */
     public function run($params)
     {
-        $this->params->parse($params, true);
+        $this->params->parse($params);
 
         if ($this->params->help) {
             $this->showHelp();

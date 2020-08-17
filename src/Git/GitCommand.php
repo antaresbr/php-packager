@@ -40,6 +40,34 @@ class GitCommand
      */
     protected $options;
 
+    /**
+     * Property 'options' acessor
+     *
+     * @return array
+     */
+    public function options()
+    {
+        return $this->options;
+    }
+
+    /**
+     * Property 'options' setter
+     *
+     * @param array $options
+     * @return void
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+    }
+
+    /**
+     * Convert an option item to shell option
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @return string
+     */
     private function itemToShellOption($key, $value)
     {
         if (is_array($value)) {
@@ -50,6 +78,13 @@ class GitCommand
         return '';
     }
 
+    /**
+     * Convert an array option to shell option
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @return string
+     */
     private function arrayToShellOption($key, $value)
     {
         $options = [];
@@ -115,7 +150,7 @@ class GitCommand
     public $showOutput = true;
 
     /**
-     * Show output array
+     * Do show output array
      *
      * @return void
      */

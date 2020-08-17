@@ -50,9 +50,9 @@ class PackageInfos
     /**
      * Get full infos file name
      *
-     * @return void
+     * @return string
      */
-    protected function getFileName()
+    public function getFileName()
     {
         return Str::join(DIRECTORY_SEPARATOR, $this->baseDir, $this->fileName);
     }

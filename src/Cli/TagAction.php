@@ -13,10 +13,12 @@ class TagAction extends BaseCliAction
      */
     protected $prototypes = [
         'action' => [
-            'labels' => ['list', 'build'],
+            'labels' => ['list', 'fetch'],
+            'helpTitle' => '{{option}}',
             'help' => [
+                'Action to be performed [ {{labels:pipe}} ]',
                 'list  : Show tag list',
-                'build : Create and commit a new tag version',
+                'fetch : Fetch tags from remote',
             ],
             'required' => true,
             'stopHere' => true,
@@ -40,10 +42,7 @@ Usage:
     packager tag < action | --help >
 
 Where:
-    action  Action to be performed [ {$actionLabels} ]
-{$this->params->help(['action'], false, str_pad('', 12))}
-
-{$this->params->help(['help'])}
+{$this->params->help()}
 
 ";
     }
