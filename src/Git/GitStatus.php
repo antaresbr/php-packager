@@ -63,6 +63,29 @@ class GitStatus extends GitCommand
     }
 
     /**
+     * Get renamed resources
+     *
+     * @return array
+     */
+    public function getRenamedResources(array $resources = [])
+    {
+        $this->updateIndex();
+
+        $changes = $this->getLocalChanges($resources);
+        $this->output = [];
+
+        if (!empty($changes)) {
+            foreach ($changes as $change) {
+                if (strtoupper(substr($change, 0, 1)) == 'R') {
+                    $this->output[] = $change;
+                }
+            }
+        }
+
+        return $this->output;
+    }
+
+    /**
      * Make a new instance of this class based on parameters
      *
      * @param array $params

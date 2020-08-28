@@ -200,12 +200,20 @@ class GitChangesHandler
                 $change['type'] = 'DELETED';
                 break;
 
+            case 'R':
+                $change['type'] = 'Renamed';
+                break;
+
             default:
                 $change['type'] = 'New';
                 break;
         }
 
-        if (is_null($resource) or $resource == '' or ($change['type'] != 'DELETED' and !file_exists($resource))) {
+        if (
+            is_null($resource) or
+            $resource == '' or
+            (!Str::scIn($change['type'], 'DELETED', 'Renamed') and !file_exists($resource))
+        ) {
             throw GitException::forInvalidResource($resource);
         }
 
@@ -341,7 +349,10 @@ class GitChangesHandler
             $this->showFormated();
             echo "(a)Select all    (+[index])Select    (d)Done/Finish\n";
             echo "(z)Unselect all  (-[index])Unselect\n";
-            $options = readline('Options (espace separated): ');
+            $options = trim(readline('Options (espace separated): '));
+            if ($options == 'ad' or $options == 'da') {
+                $options = 'a d';
+            }
             $options = explode(' ', $options);
 
             foreach ($options as $option) {
@@ -526,16 +537,23 @@ class GitChangesHandler
      */
     public function unstageResources()
     {
+        // $git = GitCommand::make([
+        //     'repository' => $this->repository(),
+        //     'command' => 'restore',
+        //     'showCommand' => false,
+        //     'showOutput' => false,
+        // ]);
+        // foreach ($this->gitStatus()->getStagedResources() as $resource) {
+        //     $git->setOptions(['--staged', $resource]);
+        //     $git->run();
+        // }
+
         $git = GitCommand::make([
             'repository' => $this->repository(),
-            'command' => 'restore',
+            'command' => 'reset',
             'showCommand' => false,
             'showOutput' => false,
-        ]);
-        foreach ($this->gitStatus()->getStagedResources() as $resource) {
-            $git->setOptions(['--staged', $resource]);
-            $git->run();
-        }
+        ])->run();
     }
 
     /**
@@ -577,6 +595,24 @@ class GitChangesHandler
         $stagedResources = $this->gitStatus()->getStagedResources();
 
         $delta = array_diff($selectedResources, $stagedResources);
+
+        //-- ignore renamed from delta
+        $oldRenamedResources = [];
+        $newRenamedResources = [];
+        foreach ($this->gitStatus()->getRenamedResources() as $line) {
+            $change = $this->extractChangeFromLine($line);
+            if ($change['type'] == 'Renamed') {
+                $resource = explode('->', $change['resource']);
+                if (count($resource) == 2) {
+                    $oldRenamedResources[] = trim($resource[0]);
+                    $newRenamedResources[] = trim($resource[1]);
+                }
+            }
+        }
+        if (!empty($oldRenamedResources)) {
+            $delta = array_diff($delta, $oldRenamedResources);
+        }
+
         if (!empty($delta)) {
             $stagedResources = ', ' . implode(', ', $stagedResources);
             foreach ($delta as $resource) {
