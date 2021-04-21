@@ -19,7 +19,7 @@
         "bin/packager"
     ],
     "require": {
-        "php": "^7",
+        "php": ">=7",
         "antaresbr/base-cli": "*",
         "antaresbr/stringhandler": "*"
     },
