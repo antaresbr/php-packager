@@ -349,7 +349,7 @@ class GitChangesHandler
             $this->showFormated();
             echo "(a)Select all    (+[index])Select    (d)Done/Finish\n";
             echo "(z)Unselect all  (-[index])Unselect\n";
-            $options = trim(readline('Options (espace separated): '));
+            $options = trim(readline('Options (space separated): '));
             if ($options == 'ad' or $options == 'da') {
                 $options = 'a d';
             }
