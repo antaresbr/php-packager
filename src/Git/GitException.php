@@ -114,4 +114,14 @@ class GitException extends Exception
     {
         return new static("Invalid tag name '{$tag}'.");
     }
+
+    /**
+     * Create a new exception for fail getting current branch name
+     *
+     * @return static
+     */
+    public static function forFailGettingCurrentBranchName()
+    {
+        return new static("Getting current branch name failed.");
+    }
 }

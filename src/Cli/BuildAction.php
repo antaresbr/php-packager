@@ -182,6 +182,9 @@ Where options:
             $this->changes()->stageSelectedChanges();
             echo "commit changes\n";
             $this->changes()->commit();
+        }
+
+        if ($this->changes()->hasCommitToPush()) {
             echo "push changes\n";
             $this->changes()->push();
         }

@@ -632,6 +632,52 @@ class GitChangesHandler
     }
 
     /**
+     * Gets name of current branch
+     * @return string
+     * @throws GitException
+     */
+    public function getCurrentBranchName()
+    {
+        $output = GitCommand::make([
+            'repository' => $this->repository(),
+            'command' => 'branch',
+            'options' => [ '--all' ],
+            'showCommand' => false,
+            'showOutput' => false,
+        ])->run()->output;
+
+        if (!empty($output)) {
+            foreach ($output as $line) {
+                if (isset($line[0]) and $line[0] === '*') {
+                    return trim(substr($line, 1));
+                }
+            }
+        }
+
+        throw GitException::forFailGettingCurrentBranchName();
+    }
+
+    /**
+     * Verify if it has commit to push
+     *
+     * @return void
+     */
+    public function hasCommitToPush()
+    {
+        $branch = $this->getCurrentBranchName();
+
+        $output = GitCommand::make([
+            'repository' => $this->repository(),
+            'command' => 'log',
+            'options' => [ "origin/{$branch}..{$branch}" ],
+            'showCommand' => false,
+            'showOutput' => false,
+        ])->run()->output;
+
+        return !empty($output);
+    }
+
+    /**
      * Push local commits
      *
      * @param string $repositoryName
@@ -639,7 +685,7 @@ class GitChangesHandler
      */
     public function push(bool $showOutput = true, string $repositoryName = 'origin')
     {
-        if (!$this->hasSelectedChanges()) {
+        if (!$this->hasCommitToPush()) {
             return;
         }
 
