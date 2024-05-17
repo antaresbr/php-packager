@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestCase;
 
 final class PackagerTest extends TestCase
 {
-    public function testDummy()
+    public function testHelpCommand()
     {
         $this->assertEquals('a', 'a');
     }

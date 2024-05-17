@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit testdox="true" colors="true">
+<phpunit 
+    testdox="true" colors="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+    bootstrap = "vendor/autoload.php"
+    >
     <testsuites>
         <testsuite name="Package handler">
-            <file>tests/SupportTest.php</file>
-            <file>tests/PackagerTest.php</file>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
+

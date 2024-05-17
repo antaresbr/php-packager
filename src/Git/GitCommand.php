@@ -2,7 +2,7 @@
 
 namespace Antares\Support\Git;
 
-use Antares\Support\Options;
+use Antares\Foundation\Options\Options;
 
 class GitCommand
 {

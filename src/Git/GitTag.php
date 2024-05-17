@@ -2,7 +2,7 @@
 
 namespace Antares\Support\Git;
 
-use Antares\Support\Str;
+use Antares\Foundation\Str;
 
 class GitTag extends GitCommand
 {

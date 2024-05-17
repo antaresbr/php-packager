@@ -3,7 +3,7 @@
 namespace Antares\Support\Packager\Infos;
 
 use Antares\Support\Packager\Exceptions\PackagerException;
-use Antares\Support\Str;
+use Antares\Foundation\Str;
 
 class PackageInfos
 {

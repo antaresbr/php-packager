@@ -27,10 +27,10 @@ final class SupportTest extends TestCase
     public function testInfos()
     {
         $infos = $this->getInfos();
-        $this->assertObjectHasAttribute('name', $infos);
-        $this->assertObjectHasAttribute('version', $infos);
-        $this->assertObjectHasAttribute('major', $infos->version);
-        $this->assertObjectHasAttribute('release', $infos->version);
-        $this->assertObjectHasAttribute('minor', $infos->version);
+        $this->assertObjectHasProperty('name', $infos);
+        $this->assertObjectHasProperty('version', $infos);
+        $this->assertObjectHasProperty('major', $infos->version);
+        $this->assertObjectHasProperty('release', $infos->version);
+        $this->assertObjectHasProperty('minor', $infos->version);
     }
 }
