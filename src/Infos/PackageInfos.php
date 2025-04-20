@@ -4,6 +4,7 @@ namespace Antares\Support\Packager\Infos;
 
 use Antares\Support\Packager\Exceptions\PackagerException;
 use Antares\Foundation\Str;
+use Antares\Support\Git\GitBranch;
 
 class PackageInfos
 {
@@ -92,8 +93,10 @@ class PackageInfos
      */
     public function show()
     {
+        $branch = GitBranch::make(['showOutput' => false])->getCurrent();
         echo "\n";
         echo "name   : {$this->name}\n";
+        echo "branch : {$branch}\n";
         echo "version: {$this->version->toString()}\n";
         echo "\n";
     }
